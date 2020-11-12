@@ -12,8 +12,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Celular para contato"
-        android:textSize="30dp" />
+        android:hint="Número para contato:"
+        android:textSize="30dp"
+        android:layout_marginTop="50dp"/>
 
     <EditText
         android:id="@+id/edt_fone"
@@ -129,9 +130,10 @@
         android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="62dp"
         android:onClick="Btn_validar"
         android:text="Pronto"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

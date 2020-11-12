@@ -16,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         btn_criar = (Button) findViewById(R.id.btn_criar);
+        btn_criar = (Button) findViewById(R.id.btn_criar);
+
+        //BOTAO QUE VAI  ATE CriarActivity
          btn_criar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
