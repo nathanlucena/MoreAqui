@@ -69,7 +69,7 @@ public class Estate implements Serializable {
     }
 
     @Override
-    public final String toString() {
+    public final String toString(){
         String ans = "Imovel: " + TYPE + ", Tamanho: " + SIZE
                 + ", Contato: " + this.PHONE + ", (" + this.STATUS + ")";
         return ans;
