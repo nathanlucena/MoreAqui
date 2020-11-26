@@ -9,10 +9,10 @@ import androidx.annotation.Nullable;
 public class EstatesData extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;
-    public static final String _ID = "ID", TYPE = "TYPE", SIZE = "SIZE", STATUS = "STATUS", LATITUDE = "LATITUDE", LONGITUDE = "LONGITUDE", PHONE = "PHONE";
+    public static final String TABLE_NAME = "MoreAqui_tbl", _ID = "ID", TYPE = "TYPE", SIZE = "SIZE", STATUS = "STATUS", LATITUDE = "LATITUDE", LONGITUDE = "LONGITUDE", PHONE = "PHONE";
     private static final
     String DATABASE_NAME = "MoreAqui",
-           CreateTable_MoreAqui = "CREATE TABLE IF NOT EXISTS MoreAqui_tbl(" +
+           CreateTable_MoreAqui = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + "(" +
                    _ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
                    TYPE +" TEXT NOT NULL, " +
                    SIZE +" TEXT NOT NULL, " +
@@ -23,6 +23,14 @@ public class EstatesData extends SQLiteOpenHelper {
 
     public EstatesData(@Nullable Context context) {
         super(context, DATABASE_NAME, null, VERSION);
+    }
+
+    public SQLiteDatabase Open(){
+        return getWritableDatabase();
+    }
+
+    public void Close(){
+        close();
     }
 
     @Override
