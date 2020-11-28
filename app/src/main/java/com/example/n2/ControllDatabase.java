@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-public abstract class EstateControll{
+public abstract class ControllDatabase {
 
     /***
      * Metodo de inserção de dados na base de dados
@@ -23,7 +23,7 @@ public abstract class EstateControll{
      ***/
     public static Estate insertData(@NonNull SQLiteDatabase db, @NonNull String type, @NonNull String size, String status, double latitude, double longitude, @NonNull String phone){
         try {
-            db.execSQL("INSERT INTO MoreAqui_tbl("+ EstatesData.TYPE + ", "+ EstatesData.SIZE + ", "+ EstatesData.STATUS + ", "+ EstatesData.LATITUDE + ", "+ EstatesData.LONGITUDE + ", "+ EstatesData.PHONE + ") VALUES('" + type + "','" + size + "','" + status +  "'," + latitude + "," + longitude + ",'" + phone +"');");
+            db.execSQL("INSERT INTO MoreAqui_tbl("+ ConfDatabase.TYPE + ", "+ ConfDatabase.SIZE + ", "+ ConfDatabase.STATUS + ", "+ ConfDatabase.LATITUDE + ", "+ ConfDatabase.LONGITUDE + ", "+ ConfDatabase.PHONE + ") VALUES('" + type + "','" + size + "','" + status +  "'," + latitude + "," + longitude + ",'" + phone +"');");
         }catch (Exception e){
             Log.e("Erro de inserção na base de dados: ",e.toString());
 
@@ -46,7 +46,7 @@ public abstract class EstateControll{
     //(TYPE, SIZE, STATUS, LATITUDE, LONGITUDE, PHONE)
     public static Estate updateData(@NonNull SQLiteDatabase db,@NonNull int ID, @NonNull String type, @NonNull String size, String status, double latitude, double longitude, @NonNull String phone){
         try {
-            db.execSQL("UPDATE "+ EstatesData.TABLE_NAME+" SET "+ EstatesData.TYPE + " = '" + type + "', "+ EstatesData.SIZE + " = '" + size + "', "+ EstatesData.STATUS + " = '" + status +  "', "+ EstatesData.LATITUDE + " = " + latitude + ", "+ EstatesData.LONGITUDE + " = " + longitude + ", "+ EstatesData.PHONE + " = '" + phone +"' WHERE ( "+EstatesData.TABLE_NAME+"."+EstatesData._ID+"="+ Integer.toString(ID)+" );");
+            db.execSQL("UPDATE "+ ConfDatabase.TABLE_NAME+" SET "+ ConfDatabase.TYPE + " = '" + type + "', "+ ConfDatabase.SIZE + " = '" + size + "', "+ ConfDatabase.STATUS + " = '" + status +  "', "+ ConfDatabase.LATITUDE + " = " + latitude + ", "+ ConfDatabase.LONGITUDE + " = " + longitude + ", "+ ConfDatabase.PHONE + " = '" + phone +"' WHERE ( "+ ConfDatabase.TABLE_NAME+"."+ ConfDatabase._ID+"="+ Integer.toString(ID)+" );");
         }catch (Exception e){
             Log.e("Erro de inserção na base de dados: ",e.toString());
         }
@@ -59,7 +59,7 @@ public abstract class EstateControll{
      ***/
     public static boolean deleteData(@NonNull SQLiteDatabase db, @NonNull int ID){
         try {
-            db.execSQL("DELETE FROM "+EstatesData.TABLE_NAME+" WHERE "+EstatesData._ID+" = "+ Integer.toString(ID)+";");
+            db.execSQL("DELETE FROM "+ ConfDatabase.TABLE_NAME+" WHERE "+ ConfDatabase._ID+" = "+ Integer.toString(ID)+";");
             return true;
         }catch (Exception e){
             Log.e("Erro ao excluir: ",e.toString());
@@ -70,30 +70,31 @@ public abstract class EstateControll{
     /***
      * Metodo para buscar os itens da tabela MoreAqui_tbl
      * @param (@NonNull SQLiteDatabase db)
-     * @return ArrayList<ObjectData>
+     * @return ArrayList<ObjectDatabase>
      ***/
-    public static ArrayList<ObjectData> selectData(@NonNull SQLiteDatabase db){
-        ArrayList<ObjectData> list = new ArrayList<>();
+    public static ArrayList<ObjectDatabase> getListtData(@NonNull SQLiteDatabase db){
+        ArrayList<ObjectDatabase> list = new ArrayList<>();
 
         try {
 
             //Fazendo query select
-            Cursor cursor = db.rawQuery("SELECT * FROM "+EstatesData.TABLE_NAME+";", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM "+ ConfDatabase.TABLE_NAME+";", null);
 
             //Movendo o curso para o primeiro da lista
             if(cursor.moveToFirst()){
                 do{
                     //Criando objeto para dos dados
-                    ObjectData data = new ObjectData();
+                    ObjectDatabase data = new ObjectDatabase();
 
                     //Armazenando objeto
-                    data.setID(cursor.getString(cursor.getColumnIndex(EstatesData._ID)));
-                    data.setTYPE(cursor.getString(cursor.getColumnIndex(EstatesData.TYPE)));
-                    data.setSIZE(cursor.getString(cursor.getColumnIndex(EstatesData.SIZE)));
-                    data.setSTATUS(cursor.getString(cursor.getColumnIndex(EstatesData.STATUS)));
-                    data.setLATITUDE(cursor.getString(cursor.getColumnIndex(EstatesData.LATITUDE)));
-                    data.setLONGITUDE(cursor.getString(cursor.getColumnIndex(EstatesData.LONGITUDE)));
-                    data.setPHONE(cursor.getString(cursor.getColumnIndex(EstatesData.PHONE)));
+                    data.setID( cursor.getString( cursor.getColumnIndex(ConfDatabase._ID)));
+
+                    data.setTYPE(cursor.getString(cursor.getColumnIndex(ConfDatabase.TYPE)));
+                    data.setSIZE(cursor.getString(cursor.getColumnIndex(ConfDatabase.SIZE)));
+                    data.setSTATUS(cursor.getString(cursor.getColumnIndex(ConfDatabase.STATUS)));
+                    data.setLATITUDE(cursor.getDouble(cursor.getColumnIndex(ConfDatabase.LATITUDE)));
+                    data.setLONGITUDE(cursor.getDouble(cursor.getColumnIndex(ConfDatabase.LONGITUDE)));
+                    data.setPHONE(cursor.getString(cursor.getColumnIndex(ConfDatabase.PHONE)));
 
                     //Adicionando a lista
                     list.add(data);
@@ -108,7 +109,7 @@ public abstract class EstateControll{
 
             }
         }catch (Exception e){
-            Log.e("Erro de exibição: ", e.toString());
+            Log.e("Erro ao obter lista: ", e.toString());
 
             return null;
 
