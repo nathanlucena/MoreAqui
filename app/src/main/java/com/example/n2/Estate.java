@@ -51,17 +51,12 @@ public class Estate implements Serializable {
     /**
      * Class constructor.
      *
-     * @param type
-     *        either house, apartment or shop.
-     * @param size
-     *        either small, large or medium.
-     * @param phone
-     *        the phone of the seller.
-     * @param inConstruction
-     *        true if the estate is still under construction.
+     * @param type           either house, apartment or shop.
+     * @param size           either small, large or medium.
+     * @param phone          the phone of the seller.
+     * @param inConstruction true if the estate is still under construction.
      */
-    public Estate(final String type, final String size, final String phone,
-                  final String inConstruction) {
+    public Estate(final String type, final String size, final String phone, final String inConstruction) {
         this.TYPE = type;
         this.SIZE = size;
         this.PHONE = phone;
@@ -69,9 +64,8 @@ public class Estate implements Serializable {
     }
 
     @Override
-    public final String toString(){
-        String ans = "Imovel: " + TYPE + ", Tamanho: " + SIZE
-                + ", Contato: " + this.PHONE + ", (" + this.STATUS + ")";
+    public final String toString() {
+        String ans = "Imovel: " + TYPE + ", Tamanho: " + SIZE + ", Contato: " + this.PHONE + ", (" + this.STATUS + ")";
         return ans;
     }
 

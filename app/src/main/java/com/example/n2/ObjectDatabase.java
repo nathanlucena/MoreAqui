@@ -1,17 +1,18 @@
 package com.example.n2;
 
-public class ObjectData {
-    private String ID, TYPE , SIZE, STATUS, LATITUDE, LONGITUDE, PHONE;
+public class ObjectDatabase {
+    private String ID, TYPE , SIZE, STATUS, PHONE;
+    private double LATITUDE, LONGITUDE;
 
     public String getID() {
         return ID;
     }
 
-    public String getLATITUDE() {
+    public double getLATITUDE() {
         return LATITUDE;
     }
 
-    public String getLONGITUDE() {
+    public double getLONGITUDE() {
         return LONGITUDE;
     }
 
@@ -35,11 +36,11 @@ public class ObjectData {
         this.ID = ID;
     }
 
-    public void setLATITUDE(String LATITUDE) {
+    public void setLATITUDE(double LATITUDE) {
         this.LATITUDE = LATITUDE;
     }
 
-    public void setLONGITUDE(String LONGITUDE) {
+    public void setLONGITUDE(double LONGITUDE) {
         this.LONGITUDE = LONGITUDE;
     }
 

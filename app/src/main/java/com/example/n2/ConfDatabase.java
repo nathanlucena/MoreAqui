@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class EstatesData extends SQLiteOpenHelper {
+public class ConfDatabase extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;
     public static final String TABLE_NAME = "MoreAqui_tbl", _ID = "ID", TYPE = "TYPE", SIZE = "SIZE", STATUS = "STATUS", LATITUDE = "LATITUDE", LONGITUDE = "LONGITUDE", PHONE = "PHONE";
@@ -21,7 +21,7 @@ public class EstatesData extends SQLiteOpenHelper {
                    LONGITUDE +" DOUBLE, " +
                    PHONE +" TEXT NOT NULL);";
 
-    public EstatesData(@Nullable Context context) {
+    public ConfDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
