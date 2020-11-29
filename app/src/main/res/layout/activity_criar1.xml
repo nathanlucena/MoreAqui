@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingLeft="20dp"
+    tools:context=".CriarActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Número para contato:"
+        android:textSize="30dp"
+        android:layout_marginTop="50dp"/>
+
+    <EditText
+        android:id="@+id/edt_fone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:hint="Telefone"
+        android:inputType="number"
+        android:textSize="30dp" />
+
+    <RadioGroup
+        android:id="@+id/radio_tipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Tipo"
+            android:textSize="30dp" />
+
+        <RadioButton
+            android:id="@+id/casa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroupTipo"
+            android:text="Casa"
+
+            android:textColorHint="#fff" />
+
+        <RadioButton
+            android:id="@+id/apartamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroupTipo"
+            android:text="Apartamento" />
+
+        <RadioButton
+            android:id="@+id/loja"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroupTipo"
+            android:text="Loja" />
+
+        <RadioButton
+            android:id="@+id/naoSei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroupTipo"
+            android:text="Não sei" />
+    </RadioGroup>
+
+
+
+    <RadioGroup
+        android:id="@+id/radio_tamanho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="200dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Tamanho"
+            android:textSize="30dp" />
+
+        <RadioButton
+            android:id="@+id/pequeno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroupTamanho"
+            android:text="Pequeno" />
+
+        <RadioButton
+            android:id="@+id/medio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroupTamanho"
+            android:text="Medio" />
+
+        <RadioButton
+            android:id="@+id/grande"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroupTamanho"
+            android:text="Grande" />
+
+        <RadioButton
+            android:id="@+id/naoSeiTam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroupTamanho"
+            android:text="Não sei" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="130dp"
+        android:text="Em construção"
+        android:onClick="CheckBox"
+        android:textSize="30dp"
+        />
+
+    <Button
+        android:id="@+id/btn_validar"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="62dp"
+        android:onClick="Btn_validar"
+        android:text="Pronto"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
