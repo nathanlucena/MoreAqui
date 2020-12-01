@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:paddingLeft="20dp"
-    tools:context=".MainActivity">
+    tools:context=".CriarActivity">
 
 
     <TextView
@@ -120,6 +120,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="130dp"
         android:text="Em construção"
+        android:checked="false"
         android:onClick="CheckBox"
         android:textSize="30dp"
         />
