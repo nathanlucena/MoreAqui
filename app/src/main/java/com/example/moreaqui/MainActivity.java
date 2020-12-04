@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static ConfDatabase db;
 
+    //Permissões
     private String[] permissoes = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION
     };
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Permissões
+        //Chama a janela para pedir permissão
         Permissoes.validarPermissoes(permissoes, this, 1);
 
         //Iniciando/criando banco SQLite com o contexto da view main activity
@@ -34,21 +35,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //abre a activity de criação
     public void eventCriar(View v){
         Intent intent = new Intent(MainActivity.this, CriarActivity.class);
         startActivity(intent);
     }
 
+    //abre a activity de vizualização
     public void eventVizualizar(View v){
         Intent intent = new Intent(MainActivity.this, ActivityView.class);
         startActivity(intent);
     }
 
+    //abre a activity para ver o mapa
     public void eventMapa(View v){
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
         startActivity(intent);
     }
 
+    //guarda os dados no servidor
     public void eventGuardar(View v){
         try {
             List<LocationEstate> estates = ControllDatabase.getListtData(db.Open());

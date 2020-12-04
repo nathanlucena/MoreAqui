@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/lista"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:text="@string/lista"
+        android:layout_centerHorizontal="true"
+        android:textSize="32dp"
+        android:layout_marginTop="3dp"/>
+
     <ListView
+        android:layout_marginTop="50dp"
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+</RelativeLayout>

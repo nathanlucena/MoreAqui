@@ -46,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private Cursor wordsCursor;
     private ConfDatabase cursor;
+    private List<LocationEstate> dataList;
 
     private BitmapDescriptor bitmapDescriptor;
 
@@ -63,10 +64,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Puxa o mapa na api e notifica quando ele estiver pronto.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
         cursor = new ConfDatabase(MapsActivity.this);
         wordsCursor = cursor.getReadableDatabase().rawQuery("SELECT * FROM "
@@ -77,8 +79,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-//       getImoveis();
 
+        //Colocando algumas configurações para o mapa da api
         UiSettings uiSettings = googleMap.getUiSettings();
         uiSettings.setCompassEnabled(false);
         uiSettings.setZoomControlsEnabled(true);
@@ -89,98 +91,85 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         locationListener = new LocationListener() {
+            //Acompanha a localização do gps
             @Override
             public void onLocationChanged(@NonNull Location location) {
+
                 Log.d("Localização", "onLocationChanged: " + location.toString());
+
+                //Setando a localização do usuario e ea colocando no mapa
                 Double latitudeUser = location.getLatitude();
                 Double longitudeUser = location.getLongitude();
                 mMap.clear();
                 LatLng localizacaoUsuario = new LatLng(latitudeUser , longitudeUser);
                 mMap.addMarker(new MarkerOptions().position(localizacaoUsuario).title("Você está aqui!"));
 
-                while (wordsCursor.moveToNext()) {
-                    latitudeDB = wordsCursor.getDouble(wordsCursor.getColumnIndex(cursor.LATITUDE));
-                    longitudeDB = wordsCursor.getDouble(wordsCursor.getColumnIndex(cursor.LONGITUDE));
-                    size = wordsCursor.getString(wordsCursor.getColumnIndex(cursor.SIZE));
-                    type = wordsCursor.getString(wordsCursor.getColumnIndex(cursor.TYPE));
-                    phone = wordsCursor.getString(wordsCursor.getColumnIndex(cursor.PHONE));
-                    status = wordsCursor.getString(wordsCursor.getColumnIndex(cursor.STATUS));
+                //abrindo a lista do banco de dados
+                dataList = ControllDatabase.getListtData(MainActivity.getDB().Open());
+
+                //verifica se existe alguma coisa na lista
+                if(dataList != null) {
+                    //Pegando os dados do banco para desenhar o ponteiro
+                    while (wordsCursor.moveToNext()) {
+                        latitudeDB = wordsCursor.getDouble(wordsCursor.getColumnIndex(cursor.LATITUDE));
+                        longitudeDB = wordsCursor.getDouble(wordsCursor.getColumnIndex(cursor.LONGITUDE));
+                        size = wordsCursor.getString(wordsCursor.getColumnIndex(cursor.SIZE));
+                        type = wordsCursor.getString(wordsCursor.getColumnIndex(cursor.TYPE));
+                        phone = wordsCursor.getString(wordsCursor.getColumnIndex(cursor.PHONE));
+                        status = wordsCursor.getString(wordsCursor.getColumnIndex(cursor.STATUS));
+
+                        LatLng localizacaoCriada = new LatLng(latitudeDB, longitudeDB);
+
+                        //verifica qual o tipo de imovel para poder colocar o ponteiro no mapa dependendo do seu tip
+                        if (type.equals("Casa")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.casa2))
+                                    .anchor(0.0f, 1.0f)
+                                    .position(localizacaoCriada)
+                                    .title("Tamanho: " + size + " | Contato: " + phone + " | (" + status + ")"));
+                        } else if (type.equals("Loja")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.loja))
+                                    .anchor(0.0f, 1.0f)
+                                    .position(localizacaoCriada)
+                                    .title("Tamanho: " + size + " | Contato: " + phone + " | (" + status + ")"));
+                        } else if (type.equals("Apartamento")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.apt))
+                                    .anchor(0.0f, 1.0f)
+                                    .position(localizacaoCriada)
+                                    .title("Tamanho: " + size + " | Contato: " + phone + " | (" + status + ")"));
+                        } else {
+                            mMap.addMarker(new MarkerOptions()
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.nada))
+                                    .anchor(0.0f, 1.0f)
+                                    .position(localizacaoCriada)
+                                    .title("Tamanho: " + size + " | Contato: " + phone + " | (" + status + ")"));
+                        }
+
+                    }
+
+                    //fazendo a camera focar no primeiro  imovel criado
+                    wordsCursor.moveToFirst();
+                    double latC = wordsCursor.getDouble(wordsCursor.getColumnIndex(cursor.LATITUDE));
+                    double longC = wordsCursor.getDouble(wordsCursor.getColumnIndex(cursor.LONGITUDE));
+                    LatLng latitudeCamera = new LatLng(latC, longC);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latitudeCamera, 17));
 
 
-                    LatLng localizacaoCriada = new LatLng(latitudeDB, longitudeDB);
-                    mMap.addMarker(new MarkerOptions()
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.casa))
-                            .anchor(0.0f,1.0f)
-                            .position(localizacaoCriada).title("Tipo: "+type+" | Tamanho: "+size+" | Contato: "+phone+" | ("+status+")")
-                            .icon(bitmapDescriptor));
-                    Log.e("Teste", latitudeDB+""+longitudeDB);
+                    //caso não tenha nenhum ímovel ele irá forcar a localização do usúario
+                }else{
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacaoUsuario, 17));
                 }
-
-                wordsCursor.moveToFirst();
-                double latC= wordsCursor.getDouble(wordsCursor.getColumnIndex(cursor.LATITUDE));
-                double longC = wordsCursor.getDouble(wordsCursor.getColumnIndex(cursor.LONGITUDE));
-                LatLng latitudeCamera = new LatLng(latC, longC);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latitudeCamera, 17));
-
             }
         };
 
+        //acompanha as mudanças do mapa em tempo real
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1000, locationListener);
         }
 
-
-    }
-/*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        for (int resultado : grantResults) {
-            //Permissão Concedida
-            if (resultado == PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1000, locationListener);
-                }
-            }
-            else
-            {
-                AlertaPermissao();
-            }
-        }
     }
 
-    private void AlertaPermissao()
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Permissão Negada");
-        builder.setMessage("Namoral, libera ai se não, não vai funcionar bença");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-
-    public void getImoveis() {
-        // aramazena os dados da busca na lista
-        while (wordsCursor.moveToNext()) {
-            int id = wordsCursor.getInt(wordsCursor.getColumnIndex(helper._ID));
-           size = wordsCursor.getString(wordsCursor.getColumnIndex(helper.SIZE));
-           type = wordsCursor.getString(wordsCursor.getColumnIndex(helper.TYPE));
-           phone = wordsCursor.getString(wordsCursor.getColumnIndex(helper.PHONE));
-            status = wordsCursor.getString(wordsCursor.getColumnIndex(helper.STATUS));
-
-            listaDeImoveis.add("Tamanho: "+ size + ", Tipo: " + type + ", Contato: " + phone + ", Em construção : " + status + latitudeDB + longitudeDB );
-        }
-    }
-*/
 }

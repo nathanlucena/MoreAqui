@@ -34,7 +34,7 @@ public class CriarActivity extends AppCompatActivity {
     private String tamanhoString;
     private String tipoString;
     private boolean checkStatus;
-    private String status = "Não está em construção";
+    private String status = "Construção finalizada";
     private double latitude;
     private double longitude;
 
@@ -62,7 +62,7 @@ public class CriarActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-
+        //verifica se existe a permisssão para acessar a localização do dispositivo
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -74,6 +74,7 @@ public class CriarActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        //pegando a localização atual do usuario
         client.getLastLocation()
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
@@ -156,7 +157,7 @@ public class CriarActivity extends AppCompatActivity {
             if (checkStatus) {
                 status = "Em construção";
             } else {
-                status = "Não está em construção";
+                status = "Construção finalizada";
             }
         }
 
